@@ -1,63 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Mood Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #2563eb;
+    }
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 500px;
+    }
+    .mood-buttons button {
+      margin: 5px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .mood-buttons .selected {
+      background-color: #2563eb;
+      color: #fff;
+    }
+    textarea, button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+    .log-entry {
+      background: #e0f2fe;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#resume">Resume</a></li>
-                <li><a href="#contact">Connect with me</a></li>
-            </ul>
-        </nav>
-    </header>
-    <section id="about">
-        <h1>About Me</h1>
-        <p>Hi, I'm Krishna Vishwakarma, currently pursuing a B. Tech in Computer Science Engineering from Sushila Devi Bansal College of Technology, Indore. I am skilled in C, C++, HTML, CSS, and UI/UX design. My journey into the world of design started with a fascination for how technology can be seamlessly integrated into everyday life, enhancing user experiences.
+  <h1>🌈 Mood Tracker</h1>
 
-            As a passionate UI/UX designer, I am interning at Cognifyz Technologies, where I've had the opportunity to work on various exciting projects. Collaborating with talented teams, I develop solutions that not only meet but exceed user expectations. My experience here has honed my skills in design thinking, user research, and prototyping using tools like Figma.</p>
-    </section>
-    <section id="projects">
-        <h1>Projects</h1>
-        <div class="project">
-            <h2>Amazon Clone</h2>
-            <p>An Amazon clone shopping app replicates Amazon's functionality, allowing users to browse and buy products across categories. It features user accounts, product listings, a shopping cart, secure checkout, and order tracking. 
+  <div class="card">
+    <h2>How are you feeling?</h2>
+    <div class="mood-buttons" id="moodButtons">
+      <button onclick="selectMood(this)">😀 Happy</button>
+      <button onclick="selectMood(this)">😔 Sad</button>
+      <button onclick="selectMood(this)">😠 Angry</button>
+      <button onclick="selectMood(this)">😌 Calm</button>
+      <button onclick="selectMood(this)">😴 Tired</button>
+    </div>
 
-            </p>
-        </div>
-        <div class="project">
-            <h2>Tic Tac Toe</h2>
-            <p>Tic Tac Toe is a classic two-player game played on a 3x3 grid where players take turns placing X or O in empty cells. The goal is to be the first to get three of their symbols in a row, column, or diagonal. The game promotes strategic thinking and pattern recognition. It is easy to learn, making it a popular introductory game for children and a common exercise in programming for learning basic algorithms.</p>
-        </div>
-        <!-- Add more projects as needed -->
-    </section>
-    <section id="resume">
-        <h1>Resume</h1>
-        <p>Download my resume <a href="https://docs.google.com/document/d/1N9jKzWxbqllvoPMNYn6_-usZpUxHDuJK/edit?usp=drive_link&ouid=102540443283874306629&rtpof=true&sd=true" target="_blank">here</a>.</p>
-    </section>
-    <section id="contact">
-        <h1>Connect with me</h1>
-        <form>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
+    <textarea id="note" placeholder="Write a note (optional)"></textarea>
+    <button onclick="logMood()">Log Mood</button>
+  </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+  <div class="card">
+    <h2>Your Mood Log</h2>
+    <div id="log"></div>
+  </div>
 
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea>
+  <script>
+    let selectedMood = "";
 
-            <button type="submit">Send</button>
-        </form>
-    </section>
-    <footer>
-        <p>&copy; 2024 Krishna Vishwakarma. All rights reserved.</p>
-    </footer>
+    function selectMood(button) {
+      document.querySelectorAll('.mood-buttons button').forEach(btn => btn.classList.remove('selected'));
+      button.classList.add('selected');
+      selectedMood = button.textContent;
+    }
+
+    function logMood() {
+      const note = document.getElementById('note').value;
+      if (!selectedMood) {
+        alert("Please select a mood first!");
+        return;
+      }
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      const now = new Date().toLocaleString();
+      entry.innerHTML = `<strong>${selectedMood}</strong><br><small>${now}</small>${note ? `<p>📝 ${note}</p>` : ''}`;
+      document.getElementById('log').prepend(entry);
+      // Reset inputs
+      document.getElementById('note').value = "";
+      selectedMood = "";
+      document.querySelectorAll('.mood-buttons button').forEach(btn => btn.classList.remove('selected'));
+    }
+  </script>
 </body>
 </html>
